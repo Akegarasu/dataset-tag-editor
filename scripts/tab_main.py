@@ -353,11 +353,7 @@ def on_ui_tabs():
             ui.load_dataset.cb_load_recursive,
             ui.load_dataset.cb_load_caption_from_filename,
             ui.load_dataset.cb_replace_new_line_with_comma,
-            ui.load_dataset.rb_use_interrogator,
-            ui.load_dataset.dd_intterogator_names,
-            ui.load_dataset.sl_custom_threshold_booru,
-            ui.load_dataset.cb_use_custom_threshold_waifu,
-            ui.load_dataset.sl_custom_threshold_waifu,
+
             ui.toprow.cb_save_kohya_metadata,
             ui.toprow.tb_metadata_output,
             ui.toprow.tb_metadata_input,
@@ -398,7 +394,7 @@ def on_ui_tabs():
             ui.edit_caption_of_selected_image.cb_copy_caption_automatically,
             ui.edit_caption_of_selected_image.cb_sort_caption_on_save,
             ui.edit_caption_of_selected_image.cb_ask_save_when_caption_changed,
-            ui.edit_caption_of_selected_image.dd_intterogator_names_si,
+            # ui.edit_caption_of_selected_image.dd_intterogator_names_si,
             ui.edit_caption_of_selected_image.rb_sort_by,
             ui.edit_caption_of_selected_image.rb_sort_order,
         ]

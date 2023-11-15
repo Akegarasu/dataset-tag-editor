@@ -7,8 +7,7 @@ from PIL import Image
 from singleton import Singleton
 
 from . import (
-    tagger,
-    captioning,
+    # captioning,
     filters,
     dataset as ds,
     kohya_finetune_metadata as kohya_metadata,
@@ -17,66 +16,10 @@ from tokenizer import clip_tokenizer
 
 import settings, logger
 
-BLIP2_CAPTIONING_NAMES = [
-    "blip2-opt-2.7b",
-    "blip2-opt-2.7b-coco",
-    "blip2-opt-6.7b",
-    "blip2-opt-6.7b-coco",
-    "blip2-flan-t5-xl",
-    "blip2-flan-t5-xl-coco",
-    "blip2-flan-t5-xxl",
-]
-
-WD_TAGGER_NAMES = [
-    "wd-v1-4-vit-tagger",
-    "wd-v1-4-convnext-tagger",
-    "wd-v1-4-vit-tagger-v2",
-    "wd-v1-4-convnext-tagger-v2",
-    "wd-v1-4-swinv2-tagger-v2",
-]
-WD_TAGGER_THRESHOLDS = [
-    0.35,
-    0.35,
-    0.3537,
-    0.3685,
-    0.3771,
-]  # v1: idk if it's okay  v2: P=R thresholds on each repo https://huggingface.co/SmilingWolf
-
-INTERROGATORS = (
-    [captioning.BLIP()]
-    + [captioning.BLIP2(name) for name in BLIP2_CAPTIONING_NAMES]
-    + [captioning.GITLarge()]
-    + [tagger.DeepDanbooru()]
-    + [
-        tagger.WaifuDiffusion(name, WD_TAGGER_THRESHOLDS[i])
-        for i, name in enumerate(WD_TAGGER_NAMES)
-    ]
-)
-INTERROGATOR_NAMES = [it.name() for it in INTERROGATORS]
-
 re_tags = re.compile(r"^([\s\S]+?)( \[\d+\])?$")
 re_newlines = re.compile(r"[\r\n]+")
 re_numbers_at_start = re.compile(r"^[-\d]+\s*")
 
-
-def interrogate_image(path: str, interrogator_name: str, threshold_booru, threshold_wd):
-    try:
-        img = Image.open(path).convert("RGB")
-    except:
-        return ""
-    else:
-        for it in INTERROGATORS:
-            if it.name() == interrogator_name:
-                if isinstance(it, tagger.DeepDanbooru):
-                    with it as tg:
-                        res = tg.predict(img, threshold_booru)
-                elif isinstance(it, tagger.WaifuDiffusion):
-                    with it as tg:
-                        res = tg.predict(img, threshold_wd)
-                else:
-                    with it as cap:
-                        res = cap.predict(img)
-        return ", ".join(res)
 
 
 class DatasetTagEditor(Singleton):
@@ -652,7 +595,7 @@ class DatasetTagEditor(Singleton):
         threshold_booru: float,
         threshold_waifu: float,
         use_temp_dir: bool,
-        kohya_json_path: Optional[str], 
+        kohya_json_path: Optional[str],
         max_res:float
     ):
         self.clear()
@@ -730,17 +673,17 @@ class DatasetTagEditor(Singleton):
         try:
             captionings = []
             taggers = []
-            if interrogate_method != self.InterrogateMethod.NONE:
-                for it in INTERROGATORS:
-                    if it.name() in interrogator_names:
-                        it.start()
-                        if isinstance(it, tagger.Tagger):
-                            if isinstance(it, tagger.DeepDanbooru):
-                                taggers.append((it, threshold_booru))
-                            if isinstance(it, tagger.WaifuDiffusion):
-                                taggers.append((it, threshold_waifu))
-                        elif isinstance(it, captioning.Captioning):
-                            captionings.append(it)
+            # if interrogate_method != self.InterrogateMethod.NONE:
+            #     for it in INTERROGATORS:
+            #         if it.name() in interrogator_names:
+            #             it.start()
+            #             if isinstance(it, tagger.Tagger):
+            #                 if isinstance(it, tagger.DeepDanbooru):
+            #                     taggers.append((it, threshold_booru))
+            #                 if isinstance(it, tagger.WaifuDiffusion):
+            #                     taggers.append((it, threshold_waifu))
+            #             elif isinstance(it, captioning.Captioning):
+            #                 captionings.append(it)
 
             if kohya_json_path:
                 imgpaths, self.images, taglists = kohya_metadata.read(

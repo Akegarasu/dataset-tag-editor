@@ -68,6 +68,7 @@ class EditCaptionOfSelectedImageUI(UIBase):
                 self.btn_copy_interrogate = gr.Button(value="Copy and Overwrite")
                 self.btn_prepend_interrogate = gr.Button(value="Prepend")
                 self.btn_append_interrogate = gr.Button(value="Append")
+
         with gr.Column():
             self.cb_copy_caption_automatically = gr.Checkbox(
                 value=cfg_edit_selected.auto_copy,
@@ -230,51 +231,51 @@ class EditCaptionOfSelectedImageUI(UIBase):
             outputs=[self.tb_edit_caption],
         )
 
-        def interrogate_selected_image(
-            interrogator_name: str,
-            threshold_booru: float,
-            use_threshold_waifu: bool,
-            threshold_waifu: float,
-        ):
-            if not interrogator_name:
-                return ""
-            threshold_booru = (
-                threshold_booru
-            )
-            threshold_waifu = threshold_waifu if use_threshold_waifu else -1
-            return dte_module.interrogate_image(
-                dataset_gallery.selected_path,
-                interrogator_name,
-                threshold_booru,
-                threshold_waifu,
-            )
+        # def interrogate_selected_image(
+        #     interrogator_name: str,
+        #     threshold_booru: float,
+        #     use_threshold_waifu: bool,
+        #     threshold_waifu: float,
+        # ):
+        #     if not interrogator_name:
+        #         return ""
+        #     threshold_booru = (
+        #         threshold_booru
+        #     )
+        #     threshold_waifu = threshold_waifu if use_threshold_waifu else -1
+        #     return dte_module.interrogate_image(
+        #         dataset_gallery.selected_path,
+        #         interrogator_name,
+        #         threshold_booru,
+        #         threshold_waifu,
+        #     )
 
-        self.btn_interrogate_si.click(
-            fn=interrogate_selected_image,
-            inputs=[
-                self.dd_intterogator_names_si,
-                load_dataset.sl_custom_threshold_booru,
-                load_dataset.cb_use_custom_threshold_waifu,
-                load_dataset.sl_custom_threshold_waifu,
-            ],
-            outputs=[self.tb_interrogate],
-        )
+        # self.btn_interrogate_si.click(
+        #     fn=interrogate_selected_image,
+        #     inputs=[
+        #         self.dd_intterogator_names_si,
+        #         load_dataset.sl_custom_threshold_booru,
+        #         load_dataset.cb_use_custom_threshold_waifu,
+        #         load_dataset.sl_custom_threshold_waifu,
+        #     ],
+        #     outputs=[self.tb_interrogate],
+        # )
 
-        self.btn_copy_interrogate.click(
-            fn=lambda a: a, inputs=[self.tb_interrogate], outputs=[self.tb_edit_caption]
-        )
+        # self.btn_copy_interrogate.click(
+        #     fn=lambda a: a, inputs=[self.tb_interrogate], outputs=[self.tb_edit_caption]
+        # )
 
-        self.btn_append_interrogate.click(
-            fn=lambda a, b: b + (", " if a and b else "") + a,
-            inputs=[self.tb_interrogate, self.tb_edit_caption],
-            outputs=[self.tb_edit_caption],
-        )
+        # self.btn_append_interrogate.click(
+        #     fn=lambda a, b: b + (", " if a and b else "") + a,
+        #     inputs=[self.tb_interrogate, self.tb_edit_caption],
+        #     outputs=[self.tb_edit_caption],
+        # )
 
-        self.btn_prepend_interrogate.click(
-            fn=lambda a, b: a + (", " if a and b else "") + b,
-            inputs=[self.tb_interrogate, self.tb_edit_caption],
-            outputs=[self.tb_edit_caption],
-        )
+        # self.btn_prepend_interrogate.click(
+        #     fn=lambda a, b: a + (", " if a and b else "") + b,
+        #     inputs=[self.tb_interrogate, self.tb_edit_caption],
+        #     outputs=[self.tb_edit_caption],
+        # )
 
         def change_in_caption():
             self.change_is_saved = False
@@ -352,12 +353,12 @@ class EditCaptionOfSelectedImageUI(UIBase):
             "inputs": [self.tb_edit_caption],
             "outputs": [self.token_counter_edit_caption],
         }
-        update_interrogate_token_counter_args = {
-            "fn": wrap_queued_call(update_token_counter),
-            "inputs": [self.tb_interrogate],
-            "outputs": [self.token_counter_interrogate],
-        }
+        # update_interrogate_token_counter_args = {
+        #     "fn": wrap_queued_call(update_token_counter),
+        #     "inputs": [self.tb_interrogate],
+        #     "outputs": [self.token_counter_interrogate],
+        # }
 
         self.tb_caption.change(**update_caption_token_counter_args)
         self.tb_edit_caption.change(**update_edit_caption_token_counter_args)
-        self.tb_interrogate.change(**update_interrogate_token_counter_args)
+        # self.tb_interrogate.change(**update_interrogate_token_counter_args)

@@ -9,7 +9,7 @@ from .uibase import UIBase
 if TYPE_CHECKING:
     from .ui_classes import *
 
-INTERROGATOR_NAMES = dte_module.INTERROGATOR_NAMES
+
 InterrogateMethod = dte_instance.InterrogateMethod
 
 
@@ -51,49 +51,6 @@ class LoadDatasetUI(UIBase):
                             value=cfg_general.replace_new_line,
                             label="Replace new-line character with comma",
                         )
-                    with gr.Column():
-                        self.rb_use_interrogator = gr.Radio(
-                            choices=[
-                                "No",
-                                "If Empty",
-                                "Overwrite",
-                                "Prepend",
-                                "Append",
-                            ],
-                            value=cfg_general.use_interrogator,
-                            label="Use Interrogator Caption",
-                        )
-                        self.dd_intterogator_names = gr.Dropdown(
-                            label="Interrogators",
-                            choices=INTERROGATOR_NAMES,
-                            value=cfg_general.use_interrogator_names,
-                            interactive=True,
-                            multiselect=True,
-                        )
-            with gr.Accordion(label="Interrogator Settings", open=False):
-                with gr.Row():
-                    self.sl_custom_threshold_booru = gr.Slider(
-                        minimum=0,
-                        maximum=1,
-                        value=cfg_general.custom_threshold_booru,
-                        step=0.01,
-                        interactive=True,
-                        label="Booru Score Threshold",
-                    )
-                with gr.Row():
-                    self.cb_use_custom_threshold_waifu = gr.Checkbox(
-                        value=cfg_general.use_custom_threshold_waifu,
-                        label="Use Custom Threshold (WDv1.4 Tagger)",
-                        interactive=True,
-                    )
-                    self.sl_custom_threshold_waifu = gr.Slider(
-                        minimum=0,
-                        maximum=1,
-                        value=cfg_general.custom_threshold_waifu,
-                        step=0.01,
-                        interactive=True,
-                        label="WDv1.4 Tagger Score Threshold",
-                    )
 
     def set_callbacks(
         self,
@@ -169,11 +126,11 @@ class LoadDatasetUI(UIBase):
                 self.cb_load_recursive,
                 self.cb_load_caption_from_filename,
                 self.cb_replace_new_line_with_comma,
-                self.rb_use_interrogator,
-                self.dd_intterogator_names,
-                self.sl_custom_threshold_booru,
-                self.cb_use_custom_threshold_waifu,
-                self.sl_custom_threshold_waifu,
+                # self.rb_use_interrogator,
+                # self.dd_intterogator_names,
+                # self.sl_custom_threshold_booru,
+                # self.cb_use_custom_threshold_waifu,
+                # self.sl_custom_threshold_waifu,
                 toprow.cb_save_kohya_metadata,
                 toprow.tb_metadata_output,
             ],

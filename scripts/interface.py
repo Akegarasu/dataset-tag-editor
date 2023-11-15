@@ -137,7 +137,6 @@ def commit_hash():
 
 
 def versions_html():
-    import torch
 
     python_version = ".".join([str(x) for x in sys.version_info[0:3]])
     commit = commit_hash()
@@ -145,8 +144,6 @@ def versions_html():
 
     return f"""
 python: <span title="{sys.version}">{python_version}</span>
- • 
-torch: {getattr(torch, '__long_version__',torch.__version__)}
  • 
 gradio: {gr.__version__}
  • 
@@ -199,7 +196,7 @@ def main():
         state.begin()
 
         settings.load()
-        paths.initialize()
+        # paths.initialize()
 
         state.temp_dir = (utilities.base_dir_path() / "temp").absolute()
         if settings.current.use_temp_files and settings.current.temp_directory != "":
